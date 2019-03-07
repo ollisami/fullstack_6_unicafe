@@ -25,4 +25,11 @@ export const notificationChange = notification => {
     }
 }
 
+export const setNotification = (notification, time) => {
+    return async dispatch => {
+        dispatch(notificationChange(notification))
+        setTimeout(() => {dispatch(clearNotification())}, time * 1000)
+    }
+}
+
 export default notificationReducer
