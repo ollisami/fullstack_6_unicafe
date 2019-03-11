@@ -1,0 +1,49 @@
+POST http://localhost:3001/api/blogs/
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RVc2VyMSIsImlkIjoiNWM2ZmFlYjRiNTE2ZDA0NGFjYjM2ZGJiIiwiaWF0IjoxNTUwODI0NTAyfQ.nO4sjyJwXMfAOP9p3DbT9ivRRxkFHLjnyY1EM9wlcgk
+
+{
+    "title": "Testi testaaja",
+    "author": "123456789",
+    "url": "wqert",
+    "likes": 10,
+    "userId": "5c6faeb4b516d044acb36dbb"
+}
+###
+POST http://localhost:3001/api/blogs/
+Content-Type: application/json
+
+{
+    "title": "Testi",
+    "author": "testaaja test",
+    "url": "test",
+    "likes": 1
+}
+###
+POST http://localhost:3001/api/blogs/
+Content-Type: application/json
+
+{
+    "author": "missing title and url",
+    "likes": 1
+}
+###
+DELETE http://localhost:3003/api/blogs/5c6fadb7cbf19d4d205ba6dc
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjVjNmZkMTE3Yzk3ZjI5NGRiNDJkMzA1MiIsImlhdCI6MTU1MTAwMzgyM30.F-crbAIRZvkwRQzEIOm19on_XKIwm5UdzoWv9_aLDfU
+
+{
+    "id": "5c6fadb7cbf19d4d205ba6dc"
+}
+###
+PUT http://localhost:3003/api/blogs/5c6fadb7cbf19d4d205ba6d4
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RVc2VyMSIsImlkIjoiNWM2ZmFlYjRiNTE2ZDA0NGFjYjM2ZGJiIiwiaWF0IjoxNTUwODI0NTAyfQ.nO4sjyJwXMfAOP9p3DbT9ivRRxkFHLjnyY1EM9wlcgk
+
+{
+    "title": "Testi testaaja",
+    "author": "123456789",
+    "url": "wqert",
+    "likes": 10,
+    "id": "5c6fadb7cbf19d4d205ba6d4"
+}
