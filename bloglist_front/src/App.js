@@ -99,7 +99,8 @@ const App = (props) => {
   }
 
   const loginInformation = () => {
-    return (!user ? null :
+    if (!user) return null
+    return (
       <p>
         {user.name} logged in&nbsp;
         <Button variant="link" onClick={() => handleLogout()}>logout</Button>
@@ -128,7 +129,8 @@ const App = (props) => {
   const BasicApp = () => (
     <div>
       <h2>blogs</h2>
-      {!user ? Login() : RenderBlogs()}
+      {!user && Login()}
+      {user && RenderBlogs()}
     </div>
   )
 
