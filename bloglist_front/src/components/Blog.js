@@ -1,19 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Blog = ({ blog, username }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
+const Blog = ({ blog }) => {
   return (
-    <div style={blogStyle}>
-      <Link to={`/blogs/${blog.id}`}>{blog.title}{blog.author}</Link>
-    </div>
+    <tr key={blog.id}>
+      <td>
+        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+      </td>
+      <td>
+        {blog.author}
+      </td>
+    </tr>
   )
 }
 

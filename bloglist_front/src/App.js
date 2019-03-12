@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
   Route, Link
 } from 'react-router-dom'
+import { Table, Nav, Navbar, Button } from 'react-bootstrap'
 
 import Blog from './components/Blog'
 import Notification from './components/Notification'
@@ -19,11 +20,12 @@ import blogService from './services/blogs'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs, likeBlog } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/usersReducer'
-import {userChange} from './reducers/userReducer'
+import { userChange } from './reducers/userReducer'
 
 const App = (props) => {
   const username  = useField('text')
   const password  = useField('password')
+  const comment   = useField('text')
   const { user, users, blogs } = props
 
   useEffect(() => {
@@ -71,6 +73,14 @@ const App = (props) => {
     props.setNotification('Uloskirjautuminen onnistui')
   }
 
+  const addComment = async (event, blogObject) => {
+    event.preventDefault()
+    blogObject.comments.push(comment.value)
+    await blogService.update(blogObject)
+    comment.reset()
+    props.setNotification('comment added')
+  }
+
   const updateBlog = async (event, blogObject) => {
     event.preventDefault()
     blogObject.likes++
@@ -91,32 +101,34 @@ const App = (props) => {
   const loginInformation = () => {
     return (!user ? null :
       <p>
-        {user.name} logged in
-        <button onClick={() => handleLogout()}>logout</button>
+        {user.name} logged in&nbsp;
+        <Button variant="link" onClick={() => handleLogout()}>logout</Button>
       </p>
     )
   }
 
   const RenderBlogList = () => (
-    <div>
-      {blogs
-        .sort((a, b) => b.likes - a.likes)
-        .map(blog =>
-          <Blog
-            key      = {blog.id}
-            blog     = {blog}
-            update   = {updateBlog}
-            remove   = {removeBlog}
-            username = {user.username}
-          />
-        )}
-    </div>
+    <Table striped>
+      <tbody>
+        {blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map(blog =>
+            <Blog
+              key      = {blog.id}
+              blog     = {blog}
+              update   = {updateBlog}
+              remove   = {removeBlog}
+              username = {user.username}
+            />
+          )}
+      </tbody>
+    </Table>
   )
 
   const BasicApp = () => (
     <div>
-        <h2>blogs</h2>
-        {!user ? Login() : RenderBlogs()}
+      <h2>blogs</h2>
+      {!user ? Login() : RenderBlogs()}
     </div>
   )
 
@@ -126,8 +138,9 @@ const App = (props) => {
         <Togglable buttonLabel='Create new'>
           <BlogForm />
         </Togglable>
+        <br></br>
         {RenderBlogList()}
-    </div>
+      </div>
     )
   }
 
@@ -148,25 +161,36 @@ const App = (props) => {
       paddingRight: 5
     }
     return (
-      <div>
-        <Link style={padding} to="/">Blogs</Link>
-        <Link style={padding} to="/users">Users</Link>
-        {loginInformation()}
-      </div>
+      <Navbar collapseOnSelect expand="sm" bg="light" variant="light">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/">Blogs</Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/users">Users</Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              {loginInformation()}
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     )
   }
 
   const User = ({ user }) => {
-    if ( user === undefined) { 
+    if ( user === undefined) {
       return null
     }
-  
+
     return (
       <div>
         <h2>{user.name}</h2>
         <h3>Added blogs:</h3>
         <ul>
-          {user.blogs.map(blog => 
+          {user.blogs.map(blog =>
             <li key={blog.id} >
               <p>{blog.title}</p>
             </li>
@@ -175,21 +199,32 @@ const App = (props) => {
       </div>
     )
   }
-  
+
   const SingleBlog = ({ blog }) => {
-    if ( blog === undefined) { 
+    if ( blog === undefined) {
       return null
     }
-  
+
     return (
       <div>
         <h2>{blog.title}</h2>
         <p>{blog.url}</p>
         <p>
-          {blog.likes} likes 
-          <button onClick={(e) => updateBlog(e,blog)}>like</button>
+          {blog.likes} likes&nbsp;
+          <Button variant="info" onClick={(e) => updateBlog(e,blog)}>like</Button>
         </p>
         <p>added by: {blog.author}</p>
+        <h1>Comments:</h1>
+        <input {...comment.props()} />
+        <p></p>
+        <Button variant="success" onClick={(e) => addComment(e,blog)}>add comment</Button>
+        <ul>
+          {blog.comments && blog.comments.map((comment, index) =>
+            <li key={index}>
+              <p>{comment}</p>
+            </li>
+          )}
+        </ul>
       </div>
     )
   }

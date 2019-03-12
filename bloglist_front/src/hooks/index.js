@@ -8,20 +8,20 @@ export const useField = (type) => {
   }
 
   const reset = () => (
-      setValue('')
+    setValue('')
   )
 
   const set = (newValue) => (
     setValue(newValue)
- )
+  )
 
- const props = () => (
+  const props = () => (
     {
       type,
       value,
       onChange
     }
- )
+  )
 
   return {
     type,

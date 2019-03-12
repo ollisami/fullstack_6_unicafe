@@ -1,6 +1,6 @@
 import React from 'react'
-import { 
-  render, waitForElement 
+import {
+  render, waitForElement
 } from 'react-testing-library'
 jest.mock('./services/blogs')
 import App from './App'
@@ -17,36 +17,36 @@ describe('<App />', () => {
     )
 
     expect(component.container).toHaveTextContent(
-        'login'
+      'login'
     )
 
     expect(component.container).not.toHaveTextContent(
-        'logged in'
+      'logged in'
     )
 
     expect(component.container).not.toHaveTextContent(
-        'Title:'
+      'Title:'
     )
   })
   it('if logged, blogs are rendered', async () => {
     const user = {
-        username: 'tester',
-        token: '1231231214',
-        name: 'Teuvo Testaaja'
-    }  
-    
+      username: 'tester',
+      token: '1231231214',
+      name: 'Teuvo Testaaja'
+    }
+
     localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
     const component = render(
-        <App />
+      <App />
     )
     component.rerender(<App />)
 
     await waitForElement(
-        () => component.getByText('Teuvo Testaaja logged in')
-      )
+      () => component.getByText('Teuvo Testaaja logged in')
+    )
 
     expect(component.container).toHaveTextContent(
-        'Title:'
+      'Title:'
     )
   })
 })

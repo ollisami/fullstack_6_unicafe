@@ -30,7 +30,8 @@ blogsRouter.post('/', async (request, response) => {
       author: body.author,
       url: body.url,
       likes: body.likes === undefined ? 0 : body.likes,
-      user: user._id
+      user: user._id,
+      comments: []
     })
 
     const savedBlog = await blog.save()
@@ -73,8 +74,10 @@ blogsRouter.put('/:id', async (request, response, next) => {
       author: body.author,
       url: body.url,
       likes: body.likes,
-      user: body.user.id
+      user: body.user.id,
+      comments: body.comments
     }
+    console.log(body.comments)
     const updatedBlog = await Blog.findByIdAndUpdate(body.id, blog, { new: true })
     response.json(updatedBlog.toJSON())
   } catch (exception) {

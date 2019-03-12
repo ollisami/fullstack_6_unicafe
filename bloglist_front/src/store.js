@@ -4,25 +4,25 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import blogService from './services/blogs'
 
 import notificationReducer from './reducers/notificationReducer'
-import blogReducer, {initializeBlogs} from './reducers/blogReducer'
+import blogReducer, { initializeBlogs } from './reducers/blogReducer'
 import userReducer from './reducers/userReducer'
 import usersReducer from './reducers/usersReducer'
 
 const reducer = combineReducers({
-    notification: notificationReducer,
-    blogs: blogReducer,
-    user: userReducer,
-    users: usersReducer
-  })
+  notification: notificationReducer,
+  blogs: blogReducer,
+  user: userReducer,
+  users: usersReducer
+})
 
-  const store = createStore(
-    reducer,
-    composeWithDevTools(
-      applyMiddleware(thunk)
-    )
+const store = createStore(
+  reducer,
+  composeWithDevTools(
+    applyMiddleware(thunk)
   )
+)
 
-  blogService.getAll().then(blogs =>
-    store.dispatch(initializeBlogs(blogs))
+blogService.getAll().then(blogs =>
+  store.dispatch(initializeBlogs(blogs))
 )
 export default store

@@ -1,7 +1,6 @@
 import React from 'react'
 import 'jest-dom/extend-expect'
 import { render, fireEvent } from 'react-testing-library'
-import { prettyDOM } from 'dom-testing-library'
 import Blog from './Blog'
 
 test('Blog renders content', () => {
@@ -19,7 +18,7 @@ test('Blog renders content', () => {
   const component = render(
     <Blog blog={blog} update={updateMockHandler} remove={removeMockHandler} username={mockUsername}/>
   )
-  
+
   expect(component.container).toHaveTextContent(
     'testTitle'
   )
@@ -55,5 +54,4 @@ test('Blog renders content', () => {
   expect(component.container).not.toHaveTextContent(
     '1 likes'
   )
-  //console.log(prettyDOM(component))
 })
